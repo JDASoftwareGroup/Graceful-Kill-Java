@@ -1,12 +1,6 @@
 os: windows
 # workaround
 language: c
-install:
-  - choco install adoptopenjdk8 -y
-  - cd \
-  - dir
-  - java -version
-  - cd JDASoftwareGroup/Graceful-Kill-Java
-  - mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+install: skip
 script:
-  - mvnw test
+  - travis_ci_build.bat
