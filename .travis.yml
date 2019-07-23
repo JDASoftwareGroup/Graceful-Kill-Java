@@ -2,5 +2,4 @@ os: windows
 # workaround
 language: c
 install: skip
-script:
-  - travis_ci_build.bat
+script: bundle exec travis_ci_build.bat
