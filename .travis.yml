@@ -3,8 +3,9 @@ os: windows
 language: c
 install:
   - choco install adoptopenjdk8 -y
-  - cd
+  - cd \
   - dir
+  - java -version
   - cd JDASoftwareGroup/Graceful-Kill-Java
   - mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
