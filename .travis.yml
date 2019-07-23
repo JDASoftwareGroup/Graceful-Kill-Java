@@ -3,7 +3,6 @@ os: windows
 language: c
 install:
   - choco install adoptopenjdk8 -y
-  - refreshenv
   - cd
   - dir
   - cd JDASoftwareGroup/Graceful-Kill-Java
