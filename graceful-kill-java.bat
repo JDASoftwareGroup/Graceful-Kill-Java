@@ -4,6 +4,8 @@ if [%1]==[] goto usage
 set AGENTJAR=org.everit.jdk.javaagent.shutdown-1.0.0.jar
 set RUNJAR=gracefulkilljava-1.0.jar
 
+for %%I in (.) do set CURDIR=%%~sI
+
 if exist %~dp0%RUNJAR% (
     set RUNFILE=%~dp0%RUNJAR%
 ) else if exist %~dp0target\%RUNJAR% (
@@ -24,6 +26,11 @@ ECHO ERROR:  Could not find %AGENTJAR% in current directory nor in .\target dire
 goto end
 )
 
+REM use short path to avoid dealing with spaces.
+pushd %JAVA_HOME%
+ for %%I in (.) do set JAVA_HOME=%%~sI
+popd
+
 REM This does not do graceful shutdown.  Cannot use this.
 REM WMIC PROCESS where "Name='JAVA.EXE' AND COMMANDLINE LIKE '%%NodeDaemon.poolName=%1%%'" CALL TERMINATE
 
@@ -32,7 +39,7 @@ ECHO This will execute the following wmic command:
 ECHO    wmic process where "caption like 'java.exe' and commandline like '%%%1%%'" get processid
 ECHO Then load the agentjar in each process to start graceful shutdown.
 echo java -cp %JAVA_HOME%\lib\tools.jar;%RUNFILE% com.jda.gracefulkilljava.GracefulKill %AGENTFILE% %1 300000
-java -cp %JAVA_HOME%\lib\tools.jar;%RUNFILE% com.jda.gracefulkilljava.GracefulKill %AGENTFILE% %1 300000
+%JAVA_HOME%\bin\java -cp %JAVA_HOME%\lib\tools.jar;%RUNFILE% com.jda.gracefulkilljava.GracefulKill %AGENTFILE% %1 300000
 
 goto end
 :usage
